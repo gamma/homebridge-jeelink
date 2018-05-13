@@ -1,0 +1,30 @@
+{
+  "name": "homebridge-jeelink",
+  "version": "0.0.1",
+  "description": "A NodeJS plugin to enable the LaCrosse protocol using a JeeLink USB adapter in Homebridge.",
+  "license": "MIT",
+  "keywords": [
+    "homebridge-plugin",
+    "jeelink",
+    "LaCrosse"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/gamma/homebridge-jeelink.git"
+  },
+  "bugs": {
+    "url": "http://github.com/gamma/homebridge-jeelink/issues"
+  },
+  "engines": {
+    "node": ">4.0.0",
+    "homebridge": "^0.4.38"
+  },
+  "dependencies": {
+    "@serialport/parser-delimiter": "^1.0.5",
+    "extend": "^3.0.0",
+    "serialport": "^6.2.0"
+  },
+  "devDependencies": {
+    "jshint": "^2.9.2"
+  }
+}
