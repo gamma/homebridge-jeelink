@@ -1,6 +1,6 @@
 {
   "name": "homebridge-jeelink",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A NodeJS plugin to enable the LaCrosse protocol using a JeeLink USB adapter in Homebridge.",
   "license": "MIT",
   "keywords": [
