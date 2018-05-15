@@ -11,5 +11,5 @@
 
 module.exports = function(homebridge) {
     let JeeLink = require('./lib/platform')(homebridge);
-    homebridge.registerPlatform("homebridge-jeelink", "jeelink", JeeLink, true);
+    homebridge.registerPlatform("homebridge-jeelink", "JeeLink", JeeLink, true);
 };
