@@ -1,10 +1,14 @@
 # Homebridge JeeLink
+[![npm](https://img.shields.io/npm/v/homebridge-jeelink.svg?style=plastic)](https://www.npmjs.com/package/homebridge-jeelink)
+[![npm](https://img.shields.io/npm/dt/homebridge-jeelink.svg?style=plastic)](https://www.npmjs.com/package/homebridge-jeelink)
+[![GitHub last commit](https://img.shields.io/github/last-commit/gamma/homebridge-jeelink.svg?style=plastic)](https://github.com/gamma/homebridge-jeelink)
+[![GitHub license](https://img.shields.io/github/license/gamma/homebridge-jeelink.svg?style=plastic)](https://github.com/gamma/homebridge-jeelink)
 
-A NodeJS plugin to enable the LaCrosse protocol using a JeeLink USB adapter in [Homebridge](https://github.com/nfarina/homebridge).
+A NodeJS plugin to enable the LaCrosse protocol using a JeeLink USB adapter in [Homebridge](https://github.com/nfarina/homebridge). The plugin checks the JeeLink device for `options.interval` seconds and will then suspend for the same interval. The history is saved using the [FakeGato](https://github.com/simont77/fakegato-history/blob/master/README.md) module and can be accessed using the Elegato Eve app.
 
 ## State
 
-This plugin is in early development.
+This plugin is in early development. But it does work as of v0.2.0. Also: it should save a history of entries for the Elegato Eve app.
 
 ## Installation
 
