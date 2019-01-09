@@ -20,10 +20,9 @@
     "homebridge": "^0.4.38"
   },
   "dependencies": {
-    "@serialport/parser-delimiter": "^1.0.5",
     "extend": "^3.0.0",
     "fakegato-history": "^0.5.3",
-    "serialport": "^6.2.0"
+    "serialport": "^6.2.2"
   },
   "devDependencies": {
     "jshint": "^2.9.7"
