@@ -7,7 +7,11 @@
       "unit": "C",
       "baudrate": 57600,
       "interval": 60,
-      "debug": false
+      "debug": false,
+      "definedNames": {
+        "LaCrosseDTH_28": "The Room where it happens",
+        "LaCrosseDTT_29": "The Room where it happens"
+      }
     }
   ]
 }
