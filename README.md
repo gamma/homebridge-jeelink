@@ -24,7 +24,7 @@ If you're (like me) running Homebridge in the Alpine docker container you'll pro
 	sudo apk add --no-cache nodejs
 
 	# Add the necessary build and runtime dependencies
-	sudo apk add --no-cache make gcc g++ python linux-headers udev
+	sudo apk add --no-cache make gcc g++ linux-headers udev
 
 ## Config
 
