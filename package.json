@@ -1,5 +1,4 @@
 {
-  "private": true,
   "displayName": "JeeLink",
   "name": "homebridge-jeelink",
   "version": "1.0.0",
