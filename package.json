@@ -7,10 +7,10 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/gamma/homebridge-jeelink-new.git"
+    "url": "git://github.com/gamma/homebridge-jeelink.git"
   },
   "bugs": {
-    "url": "https://github.com/gamma/homebridge-jeelink-new/issues"
+    "url": "https://github.com/gamma/homebridge-jeelink/issues"
   },
   "engines": {
     "node": ">=10.17.0",
