@@ -1,0 +1,115 @@
+{
+  "pluginAlias": "JeeLinkPlugin",
+  "pluginType": "platform",
+  "singular": true,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "device": {
+        "title": "Device",
+        "type": "string",
+        "required": true,
+        "default": "/dev/ttyUSB0"
+      },
+      "unit": {
+        "title": "Unit",
+        "type": "string",
+        "required": true,
+        "default": "C",
+        "oneOf": [
+          { "title": "Celsius", "enum": ["C"] },
+          { "title": "Fahrenheit", "enum": ["F"] }
+        ]
+      },
+      "baudrate": {
+        "title": "Baudrate",
+        "type": "integer",
+        "required": true,
+        "default": 57600
+      },
+      "interval": {
+        "title": "Check Interval",
+        "type": "integer",
+        "required": true,
+        "default": 60
+      },
+      "debug": {
+        "title": "Debug",
+        "type": "boolean",
+        "required": false,
+        "default": false
+      },
+      "scanmode": {
+        "title": "Scan for new Devices",
+        "type": "boolean",
+        "required": false,
+        "default": false
+      },
+      "definedNames": {
+        "type": "array",
+        "items": {
+          "title": "List of defined devices",
+          "type": "object",
+          "properties": {
+            "displayName": {
+              "type": "string",
+              "required": true,
+              "placeholder": "The Room where it happens"
+            },
+            "deviceType": {
+              "type": "string",
+              "required": true,
+              "default": "LaCrosseDTH",
+              "oneOf": [
+                { "title": "Sensor DTH with one temperature value", "enum": ["LaCrosseDTH"] },
+                { "title": "Sensor DTD with two temperatures values", "enum": ["LaCrosseDTD"] }
+              ]
+            },
+            "deviceID": {
+              "type": "integer",
+              "required": true,
+              "placeholder": "28"
+            }
+          }
+        }
+      }
+    }
+  },
+  "layout": [
+    {
+      "key": "device",
+      "type": "string"
+    },
+    {
+      "key": "unit",
+      "type": "string"
+    },
+    {
+      "key": "baudrate",
+      "type": "number"
+    },
+    {
+      "key": "interval",
+      "type": "number"
+    },
+    {
+      "key": "scanmode",
+      "type": "boolean"
+    },
+    {
+      "key": "debug",
+      "type": "boolean"
+    },
+    {
+      "key": "definedNames",
+      "type": "object",
+      "orderable": false,
+      "buttonText": "Add Device",
+      "items": [
+        "definedNames[].displayName",
+        "definedNames[].deviceType",
+        "definedNames[].deviceID"
+      ]
+    }
+  ]
+}
