@@ -75,7 +75,7 @@ export class LaCrosseDTAccessoryBase {
 
   getCurrentDataValues( callback: ( _foo, data ) => void ) {
     const context = this.accessory.context;
-    this.platform.log.info('Getting values for', this.accessory.displayName,
+    this.platform.log.debug('Getting values for', this.accessory.displayName,
       'Temperature:', context.data.temperature,
       'Humidity:', context.data.humidity );
     
