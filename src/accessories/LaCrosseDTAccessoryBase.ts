@@ -74,14 +74,14 @@ export class LaCrosseDTAccessoryBase {
   }
 
   getCurrentDataValues( callback: ( _foo, data ) => void ) {
-    const context = this.accessory.context;
+    const context = this.accessory.context, temperature = (context.data || {}).temperature;
     this.platform.log.debug('Getting values for', this.accessory.displayName,
-      'Temperature:', (context.data || {}).temperature,
+      'Temperature:', temperature,
     );
     
     // characteristic CurrentTemperature is part of multiple services
     try {
-      callback(null, context.data.temperature); 
+      callback(null, temperature); 
     } catch(e) {
       this.platform.log.error( e.message ); 
     }
