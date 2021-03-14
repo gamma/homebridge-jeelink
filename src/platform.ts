@@ -116,7 +116,7 @@ export class JeeLinkPlugin implements DynamicPlatformPlugin {
    * Wee need to stop the serial port
    */
   shutdown() {
-    this.pipe.close();
+    this.pipe && this.pipe.close();
   }
 
   /**
@@ -125,7 +125,6 @@ export class JeeLinkPlugin implements DynamicPlatformPlugin {
    * must not be registered again to prevent "duplicate UUID" errors.
    */
   discoverDevices() {
-
     // Init parser
     this.pipe = new SerialPort(this.config.device, {
       baudRate: this.config.baudrate,
@@ -134,7 +133,6 @@ export class JeeLinkPlugin implements DynamicPlatformPlugin {
     // Set up the device
     const pipe = this.pipe.pipe(new ReadLineParser({ delimiter: '\r\n' }));
 
-    this.log.debug('Reading for ' + this.config.interval + 'ms');
     pipe.on('open', () => {
       return this.log.info('Serial port open');
     });
@@ -145,6 +143,11 @@ export class JeeLinkPlugin implements DynamicPlatformPlugin {
 
     pipe.on('close', () => {
       this.log.error('Serial port closed. Was that intentional?');
+    });
+
+    this.pipe.on('error', (error) => {
+      this.log.error('Serial port error occurred: ' + error.message);
+      this.pipe = undefined;
     });
   }
 
