@@ -45,14 +45,15 @@ export class LaCrosseDTHAccessory extends LaCrosseDTAccessoryBase {
   }
 
   getCurrentHumidityDataValues( callback: ( _foo, data ) => void ) {
-    const context = this.accessory.context;
+    const context = this.accessory.context, humidity = (context.data || {}).humidity;
+
     this.platform.log.debug('Getting values for', this.accessory.displayName,
-      'Humidity:', (context.data || {}).humidity,
+      'Humidity:', humidity,
     );
     
     // characteristic CurrentTemperature is part of multiple services
     try {
-      callback(null, context.data.humidity); 
+      callback(null, humidity); 
     } catch(e) {
       this.platform.log.error( e.message ); 
     }
