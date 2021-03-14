@@ -34,17 +34,17 @@ export class LaCrosseDTHAccessory extends LaCrosseDTAccessoryBase {
     data.fakeGato = { humidity: data.humidity || 0 };
     super.updateData( data );
 
-    this.getCurrentHumidityDataValues( (_foo, data) => {
+    this.getCurrentHumidityDataValues( (_foo, _humidity, _data) => {
 
       // TemperatureSensor
       this.humidityService
-        .setCharacteristic(this.platform.Characteristic.CurrentRelativeHumidity, data.humidity || 0)
-        .setCharacteristic(this.platform.Characteristic.StatusLowBattery, data.lowBat || 0)
+        .setCharacteristic(this.platform.Characteristic.CurrentRelativeHumidity, _humidity || 0)
+        .setCharacteristic(this.platform.Characteristic.StatusLowBattery, _data.lowBat || 0)
       ;
     } );
   }
 
-  getCurrentHumidityDataValues( callback: ( _foo, data ) => void ) {
+  getCurrentHumidityDataValues( callback: ( _foo, _humidity, _data ) => void ) {
     const context = this.accessory.context,
       humidity = Math.max(0, Math.min((context.data || {}).humidity, 100) ), // ensure boundaries
       lowBat = (context.data || {}).lowBat;
@@ -53,10 +53,13 @@ export class LaCrosseDTHAccessory extends LaCrosseDTAccessoryBase {
       'Humidity:', humidity,
       'Low Battery:', lowBat,
     );
+
+    // In case something changed just here.
+    context.data.humidity = humidity;
     
     // characteristic CurrentTemperature is part of multiple services
     try {
-      callback( null, humidity );
+      callback( null, humidity, context.data );
     } catch(e) {
       this.platform.log.error( e.message ); 
     }
