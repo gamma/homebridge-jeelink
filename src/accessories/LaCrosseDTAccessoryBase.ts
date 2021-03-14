@@ -57,23 +57,23 @@ export class LaCrosseDTAccessoryBase {
 
     this.platform.log.debug('Updating:', this.accessory.context.deviceType);
 
-    this.getCurrentDataValues( (_foo, data) => {
+    this.getCurrentDataValues( (_foo, _temperature, _data) => {
 
       // TemperatureSensor
       this.temperaturService
-        .setCharacteristic(this.platform.Characteristic.CurrentTemperature, data.temperature || 0)
-        .setCharacteristic(this.platform.Characteristic.StatusLowBattery, data.lowBat || 0)
+        .setCharacteristic(this.platform.Characteristic.CurrentTemperature, _temperature || 0)
+        .setCharacteristic(this.platform.Characteristic.StatusLowBattery, _data.lowBat || 0)
       ;
 
       // Update history service
-      this.fakeGatoHistoryService.addEntry(Object.assign({}, data.fakeGato || {}, {
+      this.fakeGatoHistoryService.addEntry(Object.assign({}, _data.fakeGato || {}, {
         time: new Date().getTime() / 1000,
-        temp: data.temperature || 0,
+        temp: _data.temperature || 0,
       }));
     });
   }
 
-  getCurrentDataValues( callback: ( _foo, data ) => void ) {
+  getCurrentDataValues( callback: ( _foo, _temperature, _data ) => void ) {
     const context = this.accessory.context, temperature = (context.data || {}).temperature, lowBat = (context.data || {}).lowBat;
     this.platform.log.debug('Getting values for', this.accessory.displayName,
       'Temperature:', temperature,
@@ -82,7 +82,7 @@ export class LaCrosseDTAccessoryBase {
     
     // characteristic CurrentTemperature is part of multiple services
     try {
-      callback(null, temperature); 
+      callback(null, temperature, context.data);
     } catch(e) {
       this.platform.log.error( e.message ); 
     }
