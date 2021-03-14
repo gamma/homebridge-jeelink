@@ -34,7 +34,7 @@ export class LaCrosseDTHAccessory extends LaCrosseDTAccessoryBase {
     data.fakeGato = { humidity: data.humidity || 0 };
     super.updateData( data );
 
-    this.getCurrentDataValues( (_foo, data) => {
+    this.getCurrentHumidityDataValues( (_foo, data) => {
 
       // TemperatureSensor
       this.humidityService
