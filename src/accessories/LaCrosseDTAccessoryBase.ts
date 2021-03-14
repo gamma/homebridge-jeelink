@@ -77,12 +77,11 @@ export class LaCrosseDTAccessoryBase {
     const context = this.accessory.context;
     this.platform.log.debug('Getting values for', this.accessory.displayName,
       'Temperature:', (context.data || {}).temperature,
-      'Humidity:', (context.data || {}).humidity,
     );
     
     // characteristic CurrentTemperature is part of multiple services
     try {
-      callback(null, context.data); 
+      callback(null, context.data.temperature); 
     } catch(e) {
       this.platform.log.error( e.message ); 
     }
