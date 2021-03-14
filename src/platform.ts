@@ -41,6 +41,12 @@ export class JeeLinkPlugin implements DynamicPlatformPlugin {
     this.api.on('didFinishLaunching', () => {
       // run the method to discover / register your devices as accessories
       this.discoverDevices();
+
+      /*
+      // DEMO DATA
+      this.parseData(Buffer.from('OK 9 28 1 4 156 37', 'utf8'));
+      this.parseData(Buffer.from('OK 9 28 1 4 25 106', 'utf8'));
+      //*/
     });
 
     // This event is fired when the Homebridge service is going to be shut down.
