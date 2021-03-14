@@ -62,7 +62,7 @@ export class LaCrosseDTAccessoryBase {
       // TemperatureSensor
       this.temperaturService
         .setCharacteristic(this.platform.Characteristic.CurrentTemperature, data.temperature || 0)
-        .setCharacteristic(this.platform.Characteristic.StatusLowBattery, data.lowBat)
+        .setCharacteristic(this.platform.Characteristic.StatusLowBattery, data.lowBat || 0)
       ;
 
       // Update history service
@@ -74,9 +74,10 @@ export class LaCrosseDTAccessoryBase {
   }
 
   getCurrentDataValues( callback: ( _foo, data ) => void ) {
-    const context = this.accessory.context, temperature = (context.data || {}).temperature;
+    const context = this.accessory.context, temperature = (context.data || {}).temperature, lowBat = (context.data || {}).lowBat;
     this.platform.log.debug('Getting values for', this.accessory.displayName,
       'Temperature:', temperature,
+      'Low Battery:', lowBat,
     );
     
     // characteristic CurrentTemperature is part of multiple services
