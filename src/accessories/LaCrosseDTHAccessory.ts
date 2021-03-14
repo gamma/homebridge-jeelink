@@ -25,7 +25,7 @@ export class LaCrosseDTHAccessory extends LaCrosseDTAccessoryBase {
 
     this.humidityService.getCharacteristic(this.platform.Characteristic.CurrentRelativeHumidity)
       .setProps({minValue: 0, maxValue: 100})
-      .on('get', this.getCurrentDataValues.bind(this))
+      .on('get', this.getCurrentHumidityDataValues.bind(this))
     ;
   }
 
@@ -42,5 +42,19 @@ export class LaCrosseDTHAccessory extends LaCrosseDTAccessoryBase {
         .setCharacteristic(this.platform.Characteristic.StatusLowBattery, data.lowBat)
       ;
     } );
+  }
+
+  getCurrentHumidityDataValues( callback: ( _foo, data ) => void ) {
+    const context = this.accessory.context;
+    this.platform.log.debug('Getting values for', this.accessory.displayName,
+      'Humidity:', (context.data || {}).humidity,
+    );
+    
+    // characteristic CurrentTemperature is part of multiple services
+    try {
+      callback(null, context.data.humidity); 
+    } catch(e) {
+      this.platform.log.error( e.message ); 
+    }
   }
 }
