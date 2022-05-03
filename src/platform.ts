@@ -68,7 +68,7 @@ export class JeeLinkPlugin implements DynamicPlatformPlugin {
       try {
         this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
       } catch( e ) {
-        this.log.debug( e );
+        this.log.error('Failed to load accessory from cache:', accessory.displayName, e);
       }
       return;
     }

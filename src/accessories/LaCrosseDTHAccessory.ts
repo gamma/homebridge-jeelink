@@ -61,7 +61,7 @@ export class LaCrosseDTHAccessory extends LaCrosseDTAccessoryBase {
     try {
       callback( null, humidity, context.data );
     } catch(e) {
-      this.platform.log.error( e.message ); 
+      this.platform.log.error('Error in getCurrentHumidityDataValues:', e);
     }
   }
 }
