@@ -13,7 +13,7 @@
   },
   "engines": {
     "node": ">=10.17.0",
-    "homebridge": ">=1.0.0"
+    "homebridge": ">=1.4.0"
   },
   "main": "dist/index.js",
   "scripts": {
@@ -28,7 +28,7 @@
     "LaCrosse"
   ],
   "dependencies": {
-    "fakegato-history": "^0.6.1",
+    "fakegato-history": "^0.6.2",
     "serialport": "^9.0.2"
   },
   "devDependencies": {
@@ -36,7 +36,7 @@
     "@typescript-eslint/eslint-plugin": "^4.6.1",
     "@typescript-eslint/parser": "^4.6.1",
     "eslint": "^7.13.0",
-    "homebridge": "^1.2.3",
+    "homebridge": "^1.4.1",
     "nodemon": "^2.0.6",
     "rimraf": "^3.0.2",
     "ts-node": "^9.0.0",
