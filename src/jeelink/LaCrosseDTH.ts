@@ -2,7 +2,7 @@
  * jeelink Platform Plugin for HomeBridge (https://github.com/nfarina/homebridge)
  *
  * Based up on the protocol implementation by: @foxthefox
- * https://github.com/foxthefox/ioBroker.jeelink
+ * https://github.com/foxthefox/ioBroker.jeelink / https://github.com/foxthefox/ioBroker.jeelink/blob/master/jeelink.js
  * 
  * @url https://github.com/gamma/homebridge-jeelink
  * @author Gerry Weißbach
@@ -29,6 +29,7 @@ import { Service, Characteristic, PlatformAccessory } from 'homebridge';
 import { JeeLinkPlugin } from '../platform';
 
 import { LaCrosseDTHAccessory } from '../accessories/LaCrosseDTHAccessory';
+import { LaCrosseDTTAccessory } from '../accessories/LaCrosseDTTAccessory';
 
 /*
 JeeLinkAccessory = require('../accessory').default(homebridge);
@@ -41,7 +42,6 @@ export class LaCrosseDTHParser {
 
   private readonly log = this.platform.log;
   private readonly type = 'LaCrosse Temperature Sensor';
-  private readonly model = 'LaCrosseDTH';
 
   constructor( private readonly platform: JeeLinkPlugin ) {
 
@@ -78,6 +78,7 @@ export class LaCrosseDTHParser {
       type:           ((buf.readUInt8(1) & 0x70) >> 4),
       sensor_type:    (buf.readUInt8(1) & 0x3),
       temperature:    temp,
+      temperature2:   0,
       newBat:         0,
       lowBat:         0,
       humidity:       0,
@@ -85,7 +86,7 @@ export class LaCrosseDTHParser {
       dewPoint:       0,
     };
 
-    const device = this.getOrCreateDevice( data.id );
+    const device = this.getOrCreateDevice( data.id, data.sensor_type );
     if ( device === null ) {
       this.log.debug('Device not configured with with ID: ' + data.id);
       return;
@@ -104,44 +105,23 @@ export class LaCrosseDTHParser {
       this.log.debug('LowBattery   : ' + data.lowBat );
     }
 
-    if ( this.model === 'LaCrosseDTH' ) {
-      // LaCrosseDTH
-      //absolute Feuchte und Taupunkt
-      const rel = (buf.readUInt8(4) & 0x7f);
-      const vappress =rel/100 * 6.1078 * Math.exp(((7.5*temp)/(237.3+temp))/Math.LOG10E);
-      const v = Math.log(vappress/6.1078) * Math.LOG10E;
-      const dewp = (237.3 * v) / (7.5 - v);
-      const habs = 1000 * 18.016 / 8314.3 * 100*vappress/(273.15 + temp );
-
-      data.humidity = (buf.readUInt8(4) & 0x7f);
-      data.absHumidity = this.round(habs, 1);
-      data.dewPoint = this.round(dewp, 1);
-
-      this.log.debug('Humidty      : ' + data.humidity );
-      this.log.debug('AbsHumid     : ' + data.absHumidity );
-      this.log.debug('DewPoint     : ' + data.dewPoint );
-    }
-
-    device.updateData( data );
+    device.updateData( data, buf );
   }
 
-  private round( value: number, precision: number ) {
-    const multiplier = Math.pow(10, precision || 0);
-    return Math.round(value * multiplier) / multiplier;
-  }
-
-  getOrCreateDevice ( id: number ) {
+  getOrCreateDevice ( id: number, type: number ) {
 
     // Check if the model exists in the current instance
-    const deviceID = this.model + '_' + id;
-    let accessory = this.platform.getAccessory( deviceID );
-
-    if ( !accessory ) {
-      accessory = this.platform.createAccessory( LaCrosseDTHAccessory, deviceID );
+    switch ( type ) {
+      case 1:
+        return this.platform.createAccessory( LaCrosseDTHAccessory, id, type );
+      case 2:
+        return this.platform.createAccessory( LaCrosseDTTAccessory, id, type );
+      default:
+        this.log.error('Unknown sensor type: ' + type );
     }
   
     // If the device is not defined, we're not in scan mode and do not know the device
-    return accessory;
+    return null;
   }
 
   configure( accessory: PlatformAccessory ) {

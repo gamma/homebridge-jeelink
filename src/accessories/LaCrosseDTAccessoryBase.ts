@@ -29,7 +29,7 @@ export class LaCrosseDTAccessoryBase {
     // set accessory information
     this.accessory.getService(this.platform.Service.AccessoryInformation)!
       .setCharacteristic(this.platform.Characteristic.Manufacturer, 'LaCrosse')
-      .setCharacteristic(this.platform.Characteristic.Model, 'LaCrosse')
+      .setCharacteristic(this.platform.Characteristic.Model, this.getModel() )
       .setCharacteristic(this.platform.Characteristic.SerialNumber, accessory.UUID)
     ;
 
@@ -41,7 +41,7 @@ export class LaCrosseDTAccessoryBase {
     this.temperaturService.setCharacteristic(this.platform.Characteristic.Name, accessory.displayName);
 
     this.temperaturService.getCharacteristic(this.platform.Characteristic.CurrentTemperature)
-      .setProps({minValue: -50})
+      .setProps({minValue: -50, maxValue: 100, unit: '°C'})
       .on('get', this.getCurrentDataValues.bind(this))
     ;
 
@@ -50,7 +50,17 @@ export class LaCrosseDTAccessoryBase {
     });
   }
 
-  updateData( data ) {
+  getModel() {
+    return this.constructor.name;
+  }
+
+  protected round( value: number, precision: number ) {
+    const multiplier = Math.pow(10, precision || 0);
+    return Math.round(value * multiplier) / multiplier;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  updateData( data, buf: Buffer ) {
 
     this.accessory.context.data = data;
     this.accessory.context.lastUpdate = Date.now();
@@ -84,7 +94,7 @@ export class LaCrosseDTAccessoryBase {
     try {
       callback(null, temperature, context.data);
     } catch(e) {
-      this.platform.log.error( e.message ); 
+      this.platform.log.error('Error getting values for', this.accessory.displayName, e);
     }
   }
 }

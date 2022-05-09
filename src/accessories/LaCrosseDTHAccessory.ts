@@ -29,10 +29,28 @@ export class LaCrosseDTHAccessory extends LaCrosseDTAccessoryBase {
     ;
   }
 
-  updateData( data ) {
+  updateData( data, buf: Buffer ) {
 
+    // LaCrosseDTH
+    // absolute Feuchte und Taupunkt
+    const temp = data.temperature || 0;
+    const rel = (buf.readUInt8(4) & 0x7f);
+    const vappress =rel/100 * 6.1078 * Math.exp(((7.5*temp)/(237.3+temp))/Math.LOG10E);
+    const v = Math.log(vappress/6.1078) * Math.LOG10E;
+    const dewp = (237.3 * v) / (7.5 - v);
+    const habs = 1000 * 18.016 / 8314.3 * 100*vappress/(273.15 + temp );
+
+    data.humidity = (buf.readUInt8(4) & 0x7f);
+    data.absHumidity = this.round(habs, 1);
+    data.dewPoint = this.round(dewp, 1);
+
+    this.platform.log.debug('Humidty      : ' + data.humidity );
+    this.platform.log.debug('AbsHumid     : ' + data.absHumidity );
+    this.platform.log.debug('DewPoint     : ' + data.dewPoint );
+
+    // prepare data for FakeGatoHistoryService
     data.fakeGato = { humidity: data.humidity || 0 };
-    super.updateData( data );
+    super.updateData( data, buf );
 
     this.getCurrentHumidityDataValues( (_foo, _humidity, _data) => {
 

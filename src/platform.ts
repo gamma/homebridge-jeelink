@@ -5,6 +5,7 @@ import { LaCrosseDTHParser } from './jeelink/LaCrosseDTH';
 import { LaCrosseDTAccessoryBase } from './accessories/LaCrosseDTAccessoryBase';
 
 import { LaCrosseDTHAccessory } from './accessories/LaCrosseDTHAccessory';
+import { LaCrosseDTTAccessory } from './accessories/LaCrosseDTTAccessory';
 
 import SerialPort = require('serialport');
 import ReadLineParser = require('@serialport/parser-readline');
@@ -74,7 +75,7 @@ export class JeeLinkPlugin implements DynamicPlatformPlugin {
     }
 
     // add the restored accessory to the accessories cache so we can track if it has already been registered
-    const newInstance = this.createObjctForName( accessory.context.deviceType );
+    const newInstance = this.createObjctForType( accessory.context.deviceType );
     if ( newInstance ) {
       this.accessories.push(new newInstance.constructor(this, accessory));
     }
@@ -84,6 +85,19 @@ export class JeeLinkPlugin implements DynamicPlatformPlugin {
     switch( name ) {
       case 'LaCrosseDTHAccessory':
         return Object.create( LaCrosseDTHAccessory.prototype );
+      case 'LaCrosseDTTAccessory':
+        return Object.create( LaCrosseDTTAccessory.prototype );
+      default:
+        return null;
+    }
+  }
+
+  createObjctForType( type: number ) {
+    switch( type ) {
+      case 1:
+        return Object.create( LaCrosseDTHAccessory.prototype );
+      case 2:
+        return Object.create( LaCrosseDTTAccessory.prototype );
       default:
         return null;
     }
@@ -169,7 +183,15 @@ export class JeeLinkPlugin implements DynamicPlatformPlugin {
     return accessory;
   }
 
-  createAccessory( instanceType: typeof LaCrosseDTAccessoryBase, deviceID: string ) {
+  createAccessory( instanceType: typeof LaCrosseDTAccessoryBase, id: number, deviceType: number ) {
+
+    const model = instanceType.prototype['model'];
+    const deviceID = model + '_' + id;
+    let device = this.getAccessory( deviceID );
+    if ( device ) {
+      return device;
+    }
+
     const uuid = this.api.hap.uuid.generate( deviceID );
     const displayName = this.getName( deviceID );
 
@@ -180,6 +202,7 @@ export class JeeLinkPlugin implements DynamicPlatformPlugin {
     const accessory = new this.api.platformAccessory( displayName, uuid);
     accessory.context = {};
     accessory.context.deviceType = instanceType.name;
+    accessory.context.deviceTypeID = deviceType;
 
     this.log.info('adding new accessory: ' + deviceID + ' ' + accessory.displayName + ' ' + accessory.context.deviceType);
     try {
@@ -188,7 +211,7 @@ export class JeeLinkPlugin implements DynamicPlatformPlugin {
       this.log.debug('accessory already existed');
     }
 
-    const device = new instanceType( this, accessory );
+    device = new instanceType( this, accessory );
     // add the restored accessory to the accessories cache so we can track if it has already been registered
     this.accessories.push(device);
 
