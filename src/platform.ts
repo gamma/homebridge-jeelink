@@ -190,7 +190,7 @@ export class JeeLinkPlugin implements DynamicPlatformPlugin {
 
   createAccessory( instanceType: typeof LaCrosseDTAccessoryBase, id: number, deviceType: number ) {
 
-    const model = instanceType.prototype['model'];
+    const model = instanceType.name;
     const deviceID = model + '_' + id;
     let device = this.getAccessory( deviceID );
     if ( device ) {

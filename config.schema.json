@@ -61,8 +61,8 @@
               "required": true,
               "default": "LaCrosseDTH",
               "oneOf": [
-                { "title": "Sensor DTH with one temperature value", "enum": ["LaCrosseDTH"] },
-                { "title": "Sensor DTT with two temperatures values", "enum": ["LaCrosseDTT"] }
+                { "title": "Sensor DTH with one temperature value", "enum": ["LaCrosseDTHAccessory"] },
+                { "title": "Sensor DTT with two temperatures values", "enum": ["LaCrosseDTTAccessory"] }
               ]
             },
             "deviceID": {
