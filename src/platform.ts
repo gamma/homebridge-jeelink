@@ -41,12 +41,17 @@ export class JeeLinkPlugin implements DynamicPlatformPlugin {
     // to start discovery of new accessories.
     this.api.on('didFinishLaunching', () => {
       // run the method to discover / register your devices as accessories
+      //*
+      // LIVE Mode
       this.discoverDevices();
-
-      /*
+      /*/
       // DEMO DATA
+      // DTH
       this.parseData(Buffer.from('OK 9 28 1 4 156 37', 'utf8'));
       this.parseData(Buffer.from('OK 9 28 1 4 25 106', 'utf8'));
+      // DTD
+      this.parseData(Buffer.from('OK 9 30 130 5 18 125', 'utf8'));
+      this.parseData(Buffer.from('OK 9 30 1 4 219 106', 'utf8'));
       //*/
     });
 
