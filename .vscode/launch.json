@@ -9,12 +9,24 @@
 			"program": "/usr/local/bin/homebridge",
 			"request": "launch",
 			"args": [
+                "-I",
 				"-D"
 			],
 			"skipFiles": [
 				"<node_internals>/**"
 			],
 			"type": "pwa-node"
+		},
+		{
+			"name": "Launch via NPM",
+			"type": "node",
+			"request": "launch",
+			"cwd": "${workspaceRoot}",
+			"runtimeExecutable": "npm",
+			"runtimeArgs": [
+				"run", "watch"
+			],
+			"port": 5858
 		}
 	]
 }
