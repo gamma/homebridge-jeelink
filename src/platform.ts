@@ -49,7 +49,7 @@ export class JeeLinkPlugin implements DynamicPlatformPlugin {
       // DTH
       this.parseData(Buffer.from('OK 9 28 1 4 156 37', 'utf8'));
       this.parseData(Buffer.from('OK 9 28 1 4 25 106', 'utf8'));
-      // DTD
+      // DTT
       this.parseData(Buffer.from('OK 9 30 130 5 18 125', 'utf8'));
       this.parseData(Buffer.from('OK 9 30 1 4 219 106', 'utf8'));
       //*/
@@ -191,7 +191,11 @@ export class JeeLinkPlugin implements DynamicPlatformPlugin {
   createAccessory( instanceType: typeof LaCrosseDTAccessoryBase, id: number, deviceType: number ) {
 
     const model = instanceType.name;
-    const deviceID = model + '_' + id;
+    let deviceID = model + '_' + id;
+    if ( deviceType === 2 ) {
+      deviceID += '_' + deviceType;
+    } 
+
     let device = this.getAccessory( deviceID );
     if ( device ) {
       return device;
