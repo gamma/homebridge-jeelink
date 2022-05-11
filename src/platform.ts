@@ -178,7 +178,7 @@ export class JeeLinkPlugin implements DynamicPlatformPlugin {
 
   getName( deviceID: string ) {
     const definedNames = this.config.definedNames as Array<Map<string, string>>;
-    const device = (definedNames.find( device => deviceID === device['deviceType'] + '_' + device['deviceID'] ) || {});
+    const device = (definedNames.find( device => deviceID.startsWith( device['deviceType'] + '_' + device['deviceID'] ) ) || {});
     return device['displayName'] || deviceID;
   }
 
