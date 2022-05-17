@@ -33,12 +33,6 @@
         "required": true,
         "default": 60
       },
-      "debug": {
-        "title": "Debug",
-        "type": "boolean",
-        "required": false,
-        "default": false
-      },
       "scanmode": {
         "title": "Scan for new Devices",
         "type": "boolean",
