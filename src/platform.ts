@@ -204,7 +204,12 @@ export class JeeLinkPlugin implements DynamicPlatformPlugin {
     const uuid = this.api.hap.uuid.generate( deviceID );
     const displayName = this.getName( deviceID );
 
-    if ( this.getAccessoryWithId( uuid ) || !(this.config.scanmode || displayName !== deviceID ) ) {
+    device = this.getAccessoryWithId( uuid );
+    if ( device ) {
+      return device;
+    }
+
+    if ( !this.config.scanmode || displayName !== deviceID ) {
       return null;
     }
 
