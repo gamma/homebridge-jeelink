@@ -210,6 +210,8 @@ export class JeeLinkPlugin implements DynamicPlatformPlugin {
     }
 
     if ( !this.config.scanmode || displayName !== deviceID ) {
+      this.log.info('Scanmode:', this.config.scanmode);
+      this.log.info('DisplayName / deviceID:', displayName, deviceID);
       return null;
     }
 
