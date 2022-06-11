@@ -48,6 +48,8 @@ export class LaCrosseDTAccessoryBase {
     this.fakeGatoHistoryService = new this.FakeGatoHistoryServiceClass('weather', this.accessory, {
       storage: 'fs',
     });
+
+    this.platform.log.info('Device registered:', accessory.displayName);
   }
 
   getModel() {
@@ -68,6 +70,8 @@ export class LaCrosseDTAccessoryBase {
     this.platform.log.debug('Updating:', this.accessory.context.deviceType);
 
     this.getCurrentDataValues( (_foo, _temperature, _data) => {
+
+      this.platform.log.info('Setting values on service:', this.accessory.displayName, _temperature);
 
       // TemperatureSensor
       this.temperaturService
