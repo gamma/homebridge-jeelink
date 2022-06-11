@@ -28,7 +28,7 @@
     "LaCrosse"
   ],
   "dependencies": {
-    "fakegato-history": "^0.6.2",
+    "fakegato-history": "^0.6.3",
     "serialport": "^9.0.2"
   },
   "devDependencies": {
