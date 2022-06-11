@@ -70,7 +70,7 @@ export class LaCrosseDTHParser {
     const tmpp = tmp.splice(2, 6);  // es werden die vorderen Blöcke (0,1,2) entfernt
     this.log.debug('splice       : '+ tmpp);
 
-    const buf = Buffer.from( tmpp );
+    const buf = Buffer.from( Uint8Array.from(tmpp, (x) => parseInt(x)) );
 
     const temp = ((((buf.readUInt8(2))*256)+(buf.readUInt8(3))-1000)/10);
     const data = {
