@@ -75,6 +75,7 @@ export class LaCrosseDTHAccessory extends LaCrosseDTAccessoryBase {
     );
 
     // In case something changed just here.
+    context.data = data;
     context.data.humidity = humidity;
     
     // characteristic CurrentTemperature is part of multiple services
