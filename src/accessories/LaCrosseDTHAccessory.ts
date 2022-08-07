@@ -63,9 +63,11 @@ export class LaCrosseDTHAccessory extends LaCrosseDTAccessoryBase {
   }
 
   getCurrentHumidityDataValues( callback: ( _foo, _humidity, _data ) => void ) {
+
     const context = this.accessory.context,
-      humidity = Math.max(0, Math.min((context.data || {}).humidity, 100) ), // ensure boundaries
-      lowBat = (context.data || {}).lowBat;
+      data = context.data || {},
+      humidity = Math.max(0, Math.min(data.humidity || 0, 100) ), // ensure boundaries
+      lowBat = data.lowBat || 0;
 
     this.platform.log.debug('Getting values for', this.accessory.displayName,
       'Humidity:', humidity,

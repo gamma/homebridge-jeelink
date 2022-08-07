@@ -67,8 +67,7 @@ export class JeeLinkPlugin implements DynamicPlatformPlugin {
    */
   configureAccessory(accessory: PlatformAccessory) {
     this.log.info('Loading accessory from cache:', accessory.displayName);
-
-    // this.log.info(JSON.stringify(accessory.context));
+    this.log.debug(JSON.stringify(accessory.context));
 
     if ( !accessory.context.deviceType ) {
       try {
@@ -80,7 +79,8 @@ export class JeeLinkPlugin implements DynamicPlatformPlugin {
     }
 
     // add the restored accessory to the accessories cache so we can track if it has already been registered
-    const newInstance = this.createObjctForType( accessory.context.deviceType );
+    const newInstance = this.createObjctForType( accessory.context.deviceTypeID );
+    this.log.debug(JSON.stringify(newInstance));
     if ( newInstance ) {
       this.accessories.push(new newInstance.constructor(this, accessory));
     }
